@@ -1,4 +1,5 @@
 #include "dialog.h"
+#include "msgboxdlg.h"
 #include <QPushButton>
 #include <QGridLayout>
 #include <QFileDialog>
@@ -21,6 +22,10 @@ Dialog::Dialog(QWidget *parent)
     fontBtn->setText(tr("字体标准对话框实例"));
     fontLineEdit = new QLineEdit;
     fontLineEdit->setText(tr("Welcome!"));
+    inputBtn = new QPushButton;
+    inputBtn->setText(tr("标准输入对话框实例"));
+    msgBtn = new QPushButton;
+    msgBtn->setText(tr("标准消息对话框实例"));
     mainLayout = new QGridLayout(this);
     mainLayout->addWidget(fileBtn,0,0);
     mainLayout->addWidget(fileLineEdit,0,1);
@@ -28,9 +33,13 @@ Dialog::Dialog(QWidget *parent)
     mainLayout->addWidget(colorFrame,1,1);
     mainLayout->addWidget(fontBtn,2,0);
     mainLayout->addWidget(fontLineEdit,2,1);
+    mainLayout->addWidget(inputBtn,3,0);
+    mainLayout->addWidget(msgBtn,3,1);
     connect(fileBtn,SIGNAL(clicked(bool)),this,SLOT(showFile()));
     connect(colorBtn,SIGNAL(clicked(bool)),this,SLOT(showColor()));
     connect(fontBtn,SIGNAL(clicked(bool)),this,SLOT(showFont()));
+    connect(inputBtn,SIGNAL(clicked(bool)),this,SLOT(showInputDlg()));
+    connect(msgBtn,SIGNAL(clicked(bool)),this,SLOT(showMsgDlg()));
 
 }
 void Dialog::showFile()
@@ -55,6 +64,16 @@ void Dialog::showFont()
     {
         fontLineEdit->setFont(f);
     }
+}
+void Dialog::showInputDlg()
+{
+    inputDlg = new InputDialog(this);
+    inputDlg->show();
+}
+void Dialog::showMsgDlg()
+{
+    msgDlg = new MsgBoxDlg;
+    msgDlg->show();
 }
 Dialog::~Dialog()
 {

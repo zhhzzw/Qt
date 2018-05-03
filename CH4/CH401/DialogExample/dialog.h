@@ -1,6 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
-
+#include "inputdialog.h"
+#include "msgboxdlg.h"
 #include <QDialog>
 #include <QLineEdit>
 #include <QGridLayout>
@@ -20,10 +21,17 @@ private:
     QFrame *colorFrame;
     QPushButton *fontBtn;
     QLineEdit *fontLineEdit;
+    QPushButton *inputBtn;
+    InputDialog *inputDlg;
+    QPushButton *msgBtn;
+    MsgBoxDlg *msgDlg;
+
 private slots:
     void showFile();
     void showColor();
     void showFont();
+    void showInputDlg();
+    void showMsgDlg();
 
 };
 
