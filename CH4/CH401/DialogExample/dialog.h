@@ -25,6 +25,8 @@ private:
     InputDialog *inputDlg;
     QPushButton *msgBtn;
     MsgBoxDlg *msgDlg;
+    QPushButton *CustomBtn;
+    QLabel *label;
 
 private slots:
     void showFile();
@@ -32,6 +34,7 @@ private slots:
     void showFont();
     void showInputDlg();
     void showMsgDlg();
+    void showCustomDlg();
 
 };
 

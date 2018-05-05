@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QFontDialog>
+#include <QMessageBox>
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
@@ -26,6 +27,10 @@ Dialog::Dialog(QWidget *parent)
     inputBtn->setText(tr("标准输入对话框实例"));
     msgBtn = new QPushButton;
     msgBtn->setText(tr("标准消息对话框实例"));
+    CustomBtn = new QPushButton;
+    CustomBtn->setText(tr("用户自定义消息对话框实例"));
+    label = new QLabel;
+    label->setFrameStyle(QFrame::Panel|QFrame::Sunken);
     mainLayout = new QGridLayout(this);
     mainLayout->addWidget(fileBtn,0,0);
     mainLayout->addWidget(fileLineEdit,0,1);
@@ -35,12 +40,14 @@ Dialog::Dialog(QWidget *parent)
     mainLayout->addWidget(fontLineEdit,2,1);
     mainLayout->addWidget(inputBtn,3,0);
     mainLayout->addWidget(msgBtn,3,1);
+    mainLayout->addWidget(CustomBtn,4,0);
+    mainLayout->addWidget(label,4,1);
     connect(fileBtn,SIGNAL(clicked(bool)),this,SLOT(showFile()));
     connect(colorBtn,SIGNAL(clicked(bool)),this,SLOT(showColor()));
     connect(fontBtn,SIGNAL(clicked(bool)),this,SLOT(showFont()));
     connect(inputBtn,SIGNAL(clicked(bool)),this,SLOT(showInputDlg()));
     connect(msgBtn,SIGNAL(clicked(bool)),this,SLOT(showMsgDlg()));
-
+    connect(CustomBtn,SIGNAL(clicked(bool)),this,SLOT(showCustomDlg()));
 }
 void Dialog::showFile()
 {
@@ -74,6 +81,24 @@ void Dialog::showMsgDlg()
 {
     msgDlg = new MsgBoxDlg;
     msgDlg->show();
+}
+void Dialog::showCustomDlg()
+{
+    label->setText(tr("Custom Message Box"));
+    QMessageBox customMsgBox;
+    customMsgBox.setWindowTitle(tr("用户自定义消息框"));
+    QPushButton *yesBtn = customMsgBox.addButton(tr("yes"),QMessageBox::ActionRole);
+    QPushButton *noBtn = customMsgBox.addButton(tr("No"),QMessageBox::ActionRole);
+    QPushButton *cancleBtn = customMsgBox.addButton(QMessageBox::Cancel);
+    customMsgBox.setText(tr("这是一个用户自定义消息框!"));
+    customMsgBox.setIconPixmap(QPixmap("Qt.png"));
+    customMsgBox.exec();
+    if(customMsgBox.clickedButton()==yesBtn)
+        label->setText(tr("Custom Message Box/Yes"));
+    if(customMsgBox.clickedButton()==noBtn)
+        label->setText(tr("Custom Message Box/No"));
+    if(customMsgBox.clickedButton()==cancleBtn)
+        label->setText(tr("Custom Message Box/Cancel"));
 }
 Dialog::~Dialog()
 {
